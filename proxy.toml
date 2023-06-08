@@ -1,4 +1,8 @@
-listen = "0.0.0.0:4000"
+listen = "0.0.0.0:443"
+cert_chain = "/etc/letsencrypt/live/files.chxry.me-0001/fullchain.pem"
+private_key = "/etc/letsencrypt/live/files.chxry.me-0001/privkey.pem"
 
 [services]
-"localhost:4000" = "0.0.0.0:3000"
+"files.chxry.me" = "0.0.0.0:3000"
+"test.chxry.me" = "0.0.0.0:4000"
+

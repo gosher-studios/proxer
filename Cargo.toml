@@ -8,3 +8,6 @@ tokio = { version = "1", features = ["full"] }
 hyper = { version = "1.0.0-rc.3", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 toml = "0.7"
+tls-listener = { version = "0.7", features = ["rustls"] }
+rustls-pemfile = "1.0"
+ 
