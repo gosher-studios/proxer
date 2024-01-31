@@ -75,7 +75,6 @@ async fn main() -> Result {
                 .unwrap();
                 let (mut sender, conn) = client::handshake(local_stream).await?;
                 task::spawn(async move { conn.await });
-                dbg!(&ip.ip);
                 req.headers_mut().insert("X-Forwarded-For", HeaderValue::from_str(&ip.ip().to_string()).unwrap());
                 sender.send_request(req).await
               }),
