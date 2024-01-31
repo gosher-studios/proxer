@@ -60,12 +60,12 @@ async fn main() -> Result {
     if let Some(Ok(stream)) = listener.accept().await {
       task::spawn({
         let services = config.services.clone();
+        dbg!("{:?}",&stream);
         async move {
           server::Builder::new()
             .serve_connection(
               stream,
               service_fn(|mut req| async {
-                dbg!("{:?}",&stream);
                 let local_stream = TcpStream::connect(
                   services
                     .get(req.headers().get(header::HOST).unwrap().to_str().unwrap())
