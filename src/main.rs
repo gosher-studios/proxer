@@ -59,6 +59,7 @@ async fn main() -> Result {
     if let Some(Ok(stream)) = listener.accept().await {
       task::spawn({
         let services = config.services.clone();
+        let ip = stream.peer_addr().unwrap();
         async move {
           server::Builder::new()
             .serve_connection(
@@ -73,6 +74,7 @@ async fn main() -> Result {
                 .unwrap();
                 let (mut sender, conn) = client::handshake(stream).await?;
                 task::spawn(async move { conn.await });
+                req.headers_mut().insert("X-Forwarded-For", ip.to_string().parse().unwrap());
                 sender.send_request(req).await
               }),
             )
