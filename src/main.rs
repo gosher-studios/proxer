@@ -65,7 +65,7 @@ async fn main() -> Result {
             .serve_connection(
               stream,
               service_fn(|mut req| async {
-                dbg!("{:?}",&req);
+                dbg!("{:?}",&stream.remote_addr());
                 let local_stream = TcpStream::connect(
                   services
                     .get(req.headers().get(header::HOST).unwrap().to_str().unwrap())
