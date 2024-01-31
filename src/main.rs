@@ -65,15 +65,16 @@ async fn main() -> Result {
             .serve_connection(
               stream,
               service_fn(|mut req| async {
-                let stream = TcpStream::connect(
+                dbg!("{:?}",&req);
+                let local_stream = TcpStream::connect(
                   services
                     .get(req.headers().get(header::HOST).unwrap().to_str().unwrap())
                     .unwrap(),
                 )
                 .await
                 .unwrap();
-                let ip = stream.peer_addr().unwrap();
-                let (mut sender, conn) = client::handshake(stream).await?;
+                let ip = local_stream.peer_addr().unwrap();
+                let (mut sender, conn) = client::handshake(local_stream).await?;
                 task::spawn(async move { conn.await });
                 req.headers_mut().insert("X-Forwarded-For", HeaderValue::from_str(&ip.to_string()).unwrap());
                 sender.send_request(req).await
