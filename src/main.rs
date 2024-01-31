@@ -60,7 +60,7 @@ async fn main() -> Result {
     if let Some(Ok(stream)) = listener.accept().await {
       task::spawn({
         let services = config.services.clone();
-        dbg!("{:?}",&stream.peer());
+        dbg!("{:?}",&stream.get_ref().peer_addr());
         async move {
           server::Builder::new()
             .serve_connection(
